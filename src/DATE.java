@@ -18,7 +18,7 @@ public class DATE {
         int choice = sc.nextInt();
         switch (choice) {
             case 1 -> dateInfo();
-            case 2 -> findData();
+            case 2 -> findDate();
             case 3 -> printCalendarForMonth();
             case 4 -> printCalendarForYear();
         }
@@ -32,20 +32,14 @@ public class DATE {
         }
     }
 
-    //for rework!!
-
-
+    // 1. DATE INFO:
     public static void findDayOfTheWeek() {
         boolean flag_for_leap = isLeapYear(yyyy);
 
-        /*Declaring and initialising the given informations
-         * and arrays*/
         String[] day = {"Sunday", "Monday", "Tuesday",
                 "Wednesday", "Thursday", "Friday",
                 "Saturday"};
         int[] m_no = {0, 3, 3, 6, 1, 4, 6, 2, 5, 0, 3, 5};
-
-        /*Generalised check to find any Year Value*/
         int j;
         if ((yyyy / 100) % 2 == 0) {
             if ((yyyy / 100) % 4 == 0)
@@ -58,7 +52,6 @@ public class DATE {
             else
                 j = 0;
         }
-
         /*THE FINAL FORMULA*/
         int total = (yyyy % 100) + ((yyyy % 100) / 4) + dd
                 + m_no[mm - 1] + j;
@@ -70,14 +63,14 @@ public class DATE {
         } else
             System.out.println(day[(total % 7)]);
     }
+
+    // 3. PRINT CALENDAR FOR A MONTH
     static void printMonth(int year, int month) {
-        //Print the headings of the calendar
         printMonthTitle(year, month);
-        //Print the body of the calendar
         printMonthBody(year, month);
     }
-    static void printMonthTitle(int year, int month) {
 
+    static void printMonthTitle(int year, int month) {
         if (year < 0) {
             System.out.println(getMonthName(month) + " " + year + " " + "BC");
         } else if (year > 0) {
@@ -106,11 +99,8 @@ public class DATE {
     }
 
     static void printMonthBody(int year, int month) {
-        // Get start day of the week for the first date in the month
         int startDay = getStartDay(year, month);
-        // Get number of days in the month
         int numberOfDaysInMonth = getNumberOfDaysInMonth(year, month);
-        // Pad space before the first day of the month
         int i;
         for (i = 0; i < startDay; i++)
             System.out.print("    ");
@@ -170,6 +160,7 @@ public class DATE {
         return year % 4 == 0;
     }
 
+    // 1. DATE INFO:
     public static void dateInfo() {
         System.out.println("-DATE INFO-");
         System.out.print("Enter a year: ");
@@ -195,6 +186,7 @@ public class DATE {
         } else System.out.println("Wrong input! Please restart!");
     }
 
+    // 3. PRINT CALENDAR FOR A MONTH
     public static void printCalendarForMonth() {
         System.out.println("-PRINT CALENDAR FOR A MONTH-");
         System.out.print("Enter a year: ");
@@ -206,10 +198,51 @@ public class DATE {
         } else System.out.println("Wrong input! Please restart!");
     }
 
-    public static void findData() {
-
+    // 2. FIND DATE
+    public static double findNthWeekDayOfTheMonth(int nth, int weekDay, int month, int year) {
+        int[] daysOfMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        int[] daysOfMonthLeapYear = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        if (nth > 0)
+            return (nth - 1) * 7 + 1 + (7 + weekDay - findDayOfTheWeek((nth - 1) * 7 + 1, month, year)) % 7;
+        int days = 0;
+        if (isLeapYear(year)) {
+            days = daysOfMonthLeapYear[month - 1];
+        } else {
+            days = daysOfMonth[month - 1];
+        }
+        return (days - (findDayOfTheWeek(days, month, year) - weekDay + 7) % 7);
     }
 
+    /**
+     * This method returns the Day Of the Week ////How??!!>
+     */
+
+    public static double findDayOfTheWeek(int day, int month, int year) {
+        double a = Math.floor((14 - month) / 12);
+        double y = year - a;
+        double m = month + 12 * a - 2;
+        double d =
+                (day + y + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) + Math.floor((31 * m) / 12)) %
+                        7;
+        return d + 1;
+    }
+
+    public static void findDate() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("-FIND DATE-");
+        System.out.println("Choose an occurence from 1-4:");
+        int nth = sc.nextInt();
+        System.out.println("Choose a weekday from 1-7:");
+        int weekDay = sc.nextInt();
+        System.out.println("Choose a month from 1-12:");
+        int month = sc.nextInt();
+        System.out.println("Choose year:");
+        int year = sc.nextInt();
+        int nthDay = (int) findNthWeekDayOfTheMonth(nth, weekDay, month, year);
+        System.out.println(" DATE: " + nthDay + "." + month + "." + year);
+    }
+
+    // 4. PRINT CALENDAR FOR A YEAR
     public static void printCalendarForYear() {
         System.out.println("-PRINT CALENDAR FOR A YEAR-");
         System.out.print("Enter a year: ");
@@ -221,7 +254,6 @@ public class DATE {
         String monthx = "";
         for (int month = 1; month <= 12; month++) {
 
-            // Switch to chose the month
             switch (month) {
                 case 1 -> {
                     monthx = "January";
