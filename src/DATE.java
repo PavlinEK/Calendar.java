@@ -290,7 +290,6 @@ public class DATE {
                     System.out.printf("%- 4d\n", i);
                 else
                     System.out.printf("%-4d", i);
-
             }
             day = (day + nbrOfDays) % 7;
 
