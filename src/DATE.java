@@ -7,6 +7,22 @@ public class DATE {
 
     static String[] monthShort = {"", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
             "Aug", "Sep", "Oct", "Nov", "Dec"};
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        System.out.println("CHOOSE FROM BELOW:");
+        System.out.println("1. DATE INFO;");
+        System.out.println("2. FIND DATE;");
+        System.out.println("3. PRINT CALENDAR FOR A MONTH");
+        System.out.println("4. PRINT CALENDAR FOR A YEAR;");
+        int choice = sc.nextInt();
+        switch (choice) {
+            case 1 -> dateInfo();
+            case 2 -> findData();
+            case 3 -> printCalendarForMonth();
+            case 4 -> printCalendarForYear();
+        }
+    }
 
     public static void formatDate(int format) {
         switch (format) {
@@ -16,20 +32,10 @@ public class DATE {
         }
     }
 
-    public static void checkDate (){
-
-        if (mm < 1 || mm > 12)
-            System.out.println("Wrong input!");
-        else
-            printMonth(yyyy, mm);
-    }
+    //for rework!!
 
 
-    public static void firstDayOfTheYear(){
-
-    }
-
-    public static void findDayOfTheWeek(){
+    public static void findDayOfTheWeek() {
         boolean flag_for_leap = isLeapYear(yyyy);
 
         /*Declaring and initialising the given informations
@@ -64,10 +70,6 @@ public class DATE {
         } else
             System.out.println(day[(total % 7)]);
     }
-    public static void findDate (){
-
-    }
-
     static void printMonth(int year, int month) {
         //Print the headings of the calendar
         printMonthTitle(year, month);
@@ -80,10 +82,11 @@ public class DATE {
             System.out.println(getMonthName(month) + " " + year + " " + "BC");
         } else if (year > 0) {
             System.out.println(getMonthName(month) + " " + year + " " + "AD");
-        }else
+        } else
             System.out.println(getMonthName(month) + " " + year);
         System.out.println(" Sun Mon Tue Wed Thu Fri Sat");
     }
+
     static String getMonthName(int month) {
         return switch (month) {
             case 1 -> "January";
@@ -101,6 +104,7 @@ public class DATE {
             default -> null;
         };
     }
+
     static void printMonthBody(int year, int month) {
         // Get start day of the week for the first date in the month
         int startDay = getStartDay(year, month);
@@ -120,29 +124,25 @@ public class DATE {
         }
         System.out.println();
     }
-    /**
-     * Get the start day of the first day in a month
-     */
+
     static int getStartDay(int year, int month) {
-        //Get total number of days since 1/1/1800
-        int startDay0 = 1;
+        int startDay0 = 0;
         int totalNumberOfDays = getTotalNumberOfDays(year, month);
-        //Return the start day
         return (totalNumberOfDays + startDay0) % 7;
     }
+
     static int getTotalNumberOfDays(int year, int month) {
-        int total = 0;
-        //Get the total days from 0 to year - 1
+        int total = 5;
         for (int i = 0; i < year; i++)
             if (isLeapYear(i))
                 total = total + 366;
             else
                 total = total + 365;
-        //Add days from January to the month prior to the calendar month
         for (int i = 1; i < month; i++)
             total = total + getNumberOfDaysInMonth(year, i);
         return total;
     }
+
     static int getNumberOfDaysInMonth(int year, int month) {
         switch (month) {
             case 1:
@@ -165,36 +165,138 @@ public class DATE {
             return isLeapYear(year) ? 29 : 28;
         return 0;
     }
+
     static boolean isLeapYear(int year) {
         return year % 4 == 0;
     }
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
+    public static void dateInfo() {
+        System.out.println("-DATE INFO-");
         System.out.print("Enter a year: ");
         yyyy = sc.nextInt();
         System.out.print("Enter a month (from 1-12)  : ");
         mm = sc.nextByte();
-        System.out.println("Enter date:");
-        dd = sc.nextByte();
+        if (mm > 0 && mm < 12) {
+            System.out.println("Enter date:");
+            dd = sc.nextByte();
+//                    can be better!!!
+            if (dd > 0 && dd < 31) {
+                System.out.println("Choose date format from below:");
+                System.out.println("1: dd/MM/yyyy");
+                System.out.println("2: MM/dd/yyyy");
+                System.out.println("3: dd-MMM-yyyy");
 
+                int format = sc.nextInt();
 
-        System.out.println("Choose date format from below:");
-        System.out.println("1: dd/MM/yyyy");
-        System.out.println("2: MM/dd/yyyy");
-        System.out.println("3: dd-MMM-yyyy");
+                formatDate(format);
+                System.out.println();
+                findDayOfTheWeek();
+            } else System.out.println("Wrong input! Please restart!");
+        } else System.out.println("Wrong input! Please restart!");
+    }
 
-        int format = sc.nextInt();
+    public static void printCalendarForMonth() {
+        System.out.println("-PRINT CALENDAR FOR A MONTH-");
+        System.out.print("Enter a year: ");
+        yyyy = sc.nextInt();
+        System.out.print("Enter a month (from 1-12)  : ");
+        mm = sc.nextByte();
+        if ((mm > 1 || mm == 1) && mm < 12) {
+            printMonth(yyyy, mm);
+        } else System.out.println("Wrong input! Please restart!");
+    }
 
-        formatDate(format);
-        System.out.println();
+    public static void findData() {
 
-        findDayOfTheWeek();
-        System.out.println();
+    }
 
-        printMonth (yyyy,mm);
-        System.out.println();
-        checkDate();
+    public static void printCalendarForYear() {
+        System.out.println("-PRINT CALENDAR FOR A YEAR-");
+        System.out.print("Enter a year: ");
+        yyyy = sc.nextInt();
+        System.out.println("Enter the weekday that the year starts: ");
+        int day = sc.nextInt();
+        int dayCounter = day;
+        int nbrOfDays = 0;
+        String monthx = "";
+        for (int month = 1; month <= 12; month++) {
+
+            // Switch to chose the month
+            switch (month) {
+                case 1 -> {
+                    monthx = "January";
+                    nbrOfDays = 31;
+                }
+                case 2 -> {
+                    monthx = "February";
+                    if (yyyy % 4 == 0 && yyyy % 100 != 0 || yyyy % 400 == 0) {
+                        nbrOfDays = 29;
+                    } else {
+                        nbrOfDays = 28;
+                    }
+                }
+                case 3 -> {
+                    monthx = "March";
+                    nbrOfDays = 31;
+                }
+                case 4 -> {
+                    monthx = "April";
+                    nbrOfDays = 30;
+                }
+                case 5 -> {
+                    monthx = "May";
+                    nbrOfDays = 31;
+                }
+                case 6 -> {
+                    monthx = "June";
+                    nbrOfDays = 30;
+                }
+                case 7 -> {
+                    monthx = "July";
+                    nbrOfDays = 31;
+                }
+                case 8 -> {
+                    monthx = "August";
+                    nbrOfDays = 31;
+                }
+                case 9 -> {
+                    monthx = "September";
+                    nbrOfDays = 30;
+                }
+                case 10 -> {
+                    monthx = "October";
+                    nbrOfDays = 31;
+                }
+                case 11 -> {
+                    monthx = "November";
+                    nbrOfDays = 30;
+                }
+                case 12 -> {
+                    monthx = "December";
+                    nbrOfDays = 31;
+                }
+            }
+
+            System.out.printf("%15s %d  \n", monthx, yyyy);
+            System.out.println("----------------------------");
+            System.out.printf("%s %s %s %s %s %s %s\n ", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
+
+            for (int space = 1; space <= day; space++) {
+                System.out.printf("%4s", "    ");
+            }
+            for (int i = 1; i <= nbrOfDays; i++) {
+                dayCounter++;
+                if (dayCounter % 7 == 0)
+                    System.out.printf("%- 4d\n", i);
+                else
+                    System.out.printf("%-4d", i);
+
+            }
+            day = (day + nbrOfDays) % 7;
+
+            System.out.println();
+        }
     }
 }
+
+
