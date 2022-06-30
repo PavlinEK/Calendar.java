@@ -28,6 +28,7 @@ public class DATE {
             case 4 -> printCalendarForYear();
         }
     }
+
     // 1. DATE INFO:
     public static void dateInfo() {
         System.out.println("-DATE INFO-");
@@ -36,7 +37,7 @@ public class DATE {
         System.out.print("Enter a month (from 1-12)  : ");
         mm = sc.nextInt();
         if (mm > 0 && mm < 12) {
-            System.out.println("Enter date:");
+            System.out.println("Enter day of month:");
             dd = sc.nextByte();
             if (dd > 0 && dd < 31) {
                 System.out.println("Choose date format from below:");
@@ -162,7 +163,7 @@ public class DATE {
     public static double findNthWeekDayOfTheMonth(int nth, int weekDay, int month, int year) {
         if (nth > 0)
             return (nth - 1) * 7 + 1 + (7 + weekDay - findDayOfTheWeek((nth - 1) * 7 + 1, month, year)) % 7;
-        int days ;
+        int days;
         if (isLeapYear(year)) {
             days = daysOfMonthLeapYear[month - 1];
         } else {
@@ -184,6 +185,8 @@ public class DATE {
     public static void findDate() {
         System.out.println("-FIND DATE-");
         System.out.println("Choose a weekday from 1-7:");
+        System.out.println("1 - Monday");
+        System.out.println("7 - Sunday");
         int weekDay = sc.nextInt();
         System.out.println("Choose number of occurrences from 1-4:");
         int nth = sc.nextInt();
@@ -199,10 +202,12 @@ public class DATE {
     public static void printCalendarForYear() {
         System.out.println("-PRINT CALENDAR FOR A YEAR-");
         System.out.println("Enter the weekday that the year starts: ");
+        System.out.println("1 - Monday");
+        System.out.println("7 - Sunday");
         int day = sc.nextInt();
         int dayCounter = day;
-        int nbrOfDays ;
-        String monthX ;
+        int nbrOfDays;
+        String monthX;
         for (int month = 0; month < 12; month++) {
 
             monthX = monthLong[month];
