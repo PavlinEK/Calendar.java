@@ -138,7 +138,7 @@ public class DATE {
     }
 
     static int getTotalNumberOfDays(int year, int month) {
-        int total = 5;
+        int total = 3;
         for (int i = 0; i < year; i++)
             if (isLeapYear(i))
                 total = total + 366;
@@ -204,8 +204,8 @@ public class DATE {
         System.out.println("Enter the weekday that the year starts: ");
         System.out.println("1 - Monday");
         System.out.println("7 - Sunday");
-        int day = sc.nextInt();
-        int dayCounter = day;
+        int startDay = sc.nextInt();
+        int dayCounter = startDay;
         int nbrOfDays;
         String monthX;
         for (int month = 0; month < 12; month++) {
@@ -213,23 +213,21 @@ public class DATE {
             monthX = monthLong[month];
             nbrOfDays = daysOfMonthLeapYear[month];
 
-            System.out.printf("%17s  \n", monthX);
+            System.out.println(monthX);
             System.out.println("----------------------------");
-            System.out.printf("%s %s %s %s %s %s %s\n ", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
-            for (int space = 1; space <= day; space++) {
+            System.out.println("Sun Mon Tue Wed Thu Fri Sat");
+            for (int space = 1; space <= startDay; space++) {
                 System.out.printf("%4s", "    ");
             }
             for (int i = 1; i <= nbrOfDays; i++) {
                 dayCounter++;
                 if (dayCounter % 7 == 0)
-                    System.out.printf("%- 4d\n", i);
+                    System.out.printf("%-4d\n", i);
                 else
                     System.out.printf("%-4d", i);
             }
-            day = (day + nbrOfDays) % 7;
+            startDay = (startDay + nbrOfDays) % 7;
             System.out.println();
         }
     }
 }
-
-
