@@ -167,27 +167,27 @@ public class DATE {
         validateYear();
         System.out.print("Enter a month (from 1-12)  : ");
         validateMonth();
-        printMonth();
+        printMonth(yyyy,mm);
     }
 
-    private static void printMonth() {
-        printMonthTitle();
-        printMonthBody();
+    private static void printMonth(int year, int month) {
+        printMonthTitle(year, month);
+        printMonthBody(month);
     }
 
-    private static void printMonthTitle() {
-        if (yyyy < 0) {
-            System.out.println(monthLong[mm - 1] + " " + yyyy + " " + "BC");
-        } else if (yyyy > 0) {
-            System.out.println(monthLong[mm - 1] + " " + yyyy + " " + "AD");
+    private static void printMonthTitle(int year, int month) {
+        if (year < 0) {
+            System.out.println(monthLong[month - 1] + " " + year + " " + "BC");
+        } else if (year > 0) {
+            System.out.println(monthLong[month - 1] + " " + year + " " + "AD");
         } else
-            System.out.println(monthLong[mm - 1] + " " + yyyy);
+            System.out.println(monthLong[month - 1] + " " + year);
         System.out.println(" Sun Mon Tue Wed Thu Fri Sat");
     }
 
-    private static void printMonthBody() {
+    private static void printMonthBody(int month) {
         int startDay = getStartDay();
-        int numberOfDaysInMonth = getNumberOfDaysInMonth(mm);
+        int numberOfDaysInMonth = getNumberOfDaysInMonth(month);
         int i;
         for (i = 0; i < startDay; i++)
             System.out.print("    ");
@@ -209,7 +209,7 @@ public class DATE {
     }
 
     private static int getTotalNumberOfDays() {
-        int total = 5;
+        int total = 4;
         for (int i = 0; i < yyyy; i++)
             if (isLeapYear())
                 total = total + 366;
@@ -224,7 +224,6 @@ public class DATE {
         if (isLeapYear()) {
             return daysOfMonthLeapYear[month - 1];
         }
-
         return daysOfMonth[month - 1];
     }
 
@@ -238,9 +237,9 @@ public class DATE {
             return (nth - 1) * 7 + 1 + (7 + dd - findDayOfTheWeek((nth - 1) * 7 + 1, mm, yyyy)) % 7;
         int days;
         if (isLeapYear()) {
-            days = daysOfMonthLeapYear[mm - 1];
+            days = daysOfMonthLeapYear[mm];
         } else {
-            days = daysOfMonth[mm - 1];
+            days = daysOfMonth[mm];
         }
         return (days - (findDayOfTheWeek(days, mm, yyyy) - dd + 7) % 7);
     }
@@ -276,7 +275,7 @@ public class DATE {
         do {
             try {
                 numberOfOccurrences = Integer.parseInt(sc.nextLine());
-                if (numberOfOccurrences < 1 || numberOfOccurrences > 4) {
+                if (numberOfOccurrences < 1 || numberOfOccurrences > 5) {
                     System.out.println("Invalid number of occurrences! Try again!");
                     continue;
                 }
