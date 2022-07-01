@@ -31,15 +31,6 @@ public class DATE {
         } while (waitingForCommands);
     }
 
-    private static int chooseCommand() {
-        String command;
-        while (!(command = sc.nextLine()).equals("1") && !command.equals("2") && !command.equals("3")
-                && !command.equals("4") && !command.equals("5")) {
-            System.out.println("Invalid command! Try again!");
-        }
-        return Integer.parseInt(command);
-    }
-
     private static void printMenu() {
         System.out.println("CHOOSE FROM BELOW:");
         System.out.println("1. DATE INFO");
