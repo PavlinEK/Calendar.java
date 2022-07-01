@@ -21,12 +21,12 @@ public class DATE {
         boolean waitingForCommands = true;
         do {
             printMenu();
-            switch (chooseCommand()) {
-                case 1 -> dateInfo();
-                case 2 -> findDate();
-                case 3 -> printCalendarForMonth();
-                case 4 -> printCalendarForYear();
-                case 5 -> waitingForCommands = false;
+            switch (sc.nextLine()) {
+                case "1" -> dateInfo();
+                case "2" -> findDate();
+                case "3" -> printCalendarForMonth();
+                case "4" -> printCalendarForYear();
+                case "5" -> waitingForCommands = false;
             }
         } while (waitingForCommands);
     }
